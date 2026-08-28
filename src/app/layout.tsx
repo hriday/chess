@@ -1,0 +1,48 @@
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import { Header } from "@/components/Header";
+import { APP_NAME } from "@/lib/version";
+import "./globals.css";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+export const metadata: Metadata = {
+  title: `${APP_NAME} — Chess Analysis`,
+  description: "Replay chess games, analyse them with Stockfish, and learn with move-by-move teaching commentary.",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+  (function(){try{var t=localStorage.getItem("theme")||"system";
+  var d=t==="dark"||(t==="system"&&matchMedia("(prefers-color-scheme: dark)").matches);
+  document.documentElement.classList.toggle("dark",d);}catch(e){}})();
+`,
+          }}
+        />
+      </head>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100`}
+      >
+        <Header />
+        {children}
+      </body>
+    </html>
+  );
+}

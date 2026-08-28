@@ -1,0 +1,27 @@
+[Unit]
+Description=chess.moosha.org Next.js app
+After=network.target postgresql.service
+
+[Service]
+Type=simple
+User=chess
+WorkingDirectory=/opt/chess/app
+EnvironmentFile=/opt/chess/app/.env
+ExecStart=/usr/bin/npm run start -- --port 3001
+Restart=on-failure
+RestartSec=5
+
+# Sandboxing: limit what the process can touch. NoNewPrivileges blocks privilege
+# escalation via setuid/setgid/capabilities. PrivateTmp gives the unit its own /tmp.
+# ProtectSystem=strict makes the whole filesystem read-only except paths explicitly
+# listed in ReadWritePaths; ProtectHome hides /home, /root, /run/user. Next.js writes
+# its runtime cache under .next at runtime, so that one path is carved back out as
+# read-write.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/opt/chess/app/.next
+
+[Install]
+WantedBy=multi-user.target

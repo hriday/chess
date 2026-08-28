@@ -83,4 +83,19 @@ describe("AdminTabs", () => {
     expect(gamesTab.getAttribute("aria-selected")).toBe("false");
     expect(usersTab.getAttribute("aria-selected")).toBe("true");
   });
+
+  it("has correct ARIA wiring between tabs and panels (aria-controls and aria-labelledby)", () => {
+    render(<AdminTabs />);
+
+    const gamesTab = screen.getByRole("tab", { name: /famous games/i });
+    const gamesPanel = screen.getByRole("tabpanel", { name: /famous games/i });
+
+    // Games tab should control games panel
+    expect(gamesTab.getAttribute("id")).toBe("tab-games");
+    expect(gamesTab.getAttribute("aria-controls")).toBe("panel-games");
+
+    // Games panel should be labeled by games tab
+    expect(gamesPanel.getAttribute("id")).toBe("panel-games");
+    expect(gamesPanel.getAttribute("aria-labelledby")).toBe("tab-games");
+  });
 });

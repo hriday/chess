@@ -10,8 +10,11 @@ export function AdminTabs() {
     <div>
       <div role="tablist" className="flex gap-6 border-b border-black/10 dark:border-white/15">
         <button
+          type="button"
           role="tab"
+          id="tab-games"
           aria-selected={active === "games"}
+          aria-controls="panel-games"
           onClick={() => setActive("games")}
           className={`px-3 py-3 text-sm font-medium transition-all ${
             active === "games"
@@ -22,8 +25,11 @@ export function AdminTabs() {
           Famous games
         </button>
         <button
+          type="button"
           role="tab"
+          id="tab-users"
           aria-selected={active === "users"}
+          aria-controls="panel-users"
           onClick={() => setActive("users")}
           className={`px-3 py-3 text-sm font-medium transition-all ${
             active === "users"
@@ -35,10 +41,20 @@ export function AdminTabs() {
         </button>
       </div>
       <div className="pt-6">
-        <div className={active === "games" ? "" : "hidden"}>
+        <div
+          role="tabpanel"
+          id="panel-games"
+          aria-labelledby="tab-games"
+          className={active === "games" ? "" : "hidden"}
+        >
           <FamousGameForm />
         </div>
-        <div className={active === "users" ? "" : "hidden"}>
+        <div
+          role="tabpanel"
+          id="panel-users"
+          aria-labelledby="tab-users"
+          className={active === "users" ? "" : "hidden"}
+        >
           <UserTable />
         </div>
       </div>
